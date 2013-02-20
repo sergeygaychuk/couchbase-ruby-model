@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_runtime_dependency 'couchbase', '~> 1.2.0.dp'
+  s.add_runtime_dependency 'deep_clone', '~> 0.0.1'
 
   s.add_development_dependency 'rake'
   s.add_development_dependency 'minitest'

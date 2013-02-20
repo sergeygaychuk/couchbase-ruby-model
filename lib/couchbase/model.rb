@@ -16,6 +16,7 @@
 #
 
 require 'digest/md5'
+require 'deep_clone'
 
 require 'couchbase'
 require 'couchbase/model/version'
@@ -458,7 +459,7 @@ module Couchbase
         h[k] = if default.respond_to?(:call)
                  default.call
                else
-                 default
+                 default.__deep_clone__
                end
       end
       case attrs

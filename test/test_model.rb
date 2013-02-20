@@ -45,12 +45,16 @@ class Attachment < Couchbase::Model
   defaults :format => :plain
 end
 
+class Image < Couchbase::Model
+  attribute :size, :default => { :width => 10, :height => 20 }
+end
+
 class TestModel < MiniTest::Unit::TestCase
 
   def setup
     @mock = start_mock
     bucket = Couchbase.connect(:hostname => @mock.host, :port => @mock.port)
-    [Post, ValidPost, Brewery, Beer, Attachment].each do |model|
+    [Post, ValidPost, Brewery, Beer, Attachment, Image].each do |model|
       model.bucket = bucket
     end
   end
@@ -250,6 +254,16 @@ class TestModel < MiniTest::Unit::TestCase
     id = Attachment.create(:raw => contents).id
     blob = Attachment.find(id)
     assert_equal contents, blob.raw
+  end
+
+  def test_it_should_clone_attribute_default
+    img = Image.new
+    assert_equal 10, img.size[:width]
+    img.size[:width] = 15
+    assert_equal 15, img.size[:width]
+
+    img = Image.new
+    assert_equal 10, img.size[:width]
   end
 
 end
